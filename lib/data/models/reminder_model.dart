@@ -13,15 +13,29 @@ class ReminderModel extends Equatable {
   final String title;
 
   @HiveField(2)
+  final String description;
+
+  @HiveField(3)
   final DateTime time;
 
-  const ReminderModel({required this.id, required this.title, required this.time});
+  @HiveField(4)
+  final RepeatInterval repeatInterval;
+
+  const ReminderModel({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.time,
+    this.repeatInterval = RepeatInterval.none,
+  });
 
   factory ReminderModel.fromEntity(Reminder reminder) {
     return ReminderModel(
       id: reminder.id,
       title: reminder.title,
+      description: reminder.description,
       time: reminder.time,
+      repeatInterval: reminder.repeatInterval,
     );
   }
 
@@ -29,10 +43,27 @@ class ReminderModel extends Equatable {
     return Reminder(
       id: id,
       title: title,
+      description: description,
       time: time,
+      repeatInterval: repeatInterval,
     );
   }
 
   @override
-  List<Object> get props => [id, title, time];
+  List<Object> get props => [id, title, description, time, repeatInterval];
+}
+
+@HiveType(typeId: 1)
+enum RepeatInterval {
+  @HiveField(0)
+  none,
+
+  @HiveField(1)
+  daily,
+
+  @HiveField(2)
+  weekly,
+
+  @HiveField(3)
+  monthly
 }

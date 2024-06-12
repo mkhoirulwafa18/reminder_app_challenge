@@ -17,3 +17,12 @@ class RemindersLoaded extends ReminderState {
   @override
   List<Object> get props => [reminders];
 }
+
+class RemindersError extends ReminderState {
+  final String message;
+
+  const RemindersError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
